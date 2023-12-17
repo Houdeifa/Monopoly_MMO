@@ -21,7 +21,7 @@ Monopoly_MMO is an online multiplayer Monopoly game implemented in Python using 
 1. **Clone the Repository:**
 
 ```bash
-git clone https://github.com/your-username/Monopoly_MMO.git
+git clone https://github.com/Houdeifa/Monopoly_MMO.git
 cd Monopoly_MMO
 ```
 
@@ -38,11 +38,20 @@ python main.py
 ## Contributing
 Contributions are welcome! Follow these steps to contribute:
 
-    Fork the repository.
-    Create a new branch: ```git checkout -b feature-branch```
-    Make your changes and commit: ```git commit -m 'Add new feature'```
-    Push to the branch: ```git push origin feature-branch```
-    Create a pull request.
+- Fork the repository.
+- Create a new branch: 
+```
+git checkout -b feature-branch
+```
+- Make your changes and commit: 
+```
+git commit -m 'Add new feature'
+```
+- Push to the branch: 
+```
+git push origin feature-branch
+```
+- Create a pull request.
 
 ## License
 This project is licensed under the GPL License.
