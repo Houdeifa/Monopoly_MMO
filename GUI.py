@@ -18,6 +18,13 @@ class Button:
     self.textSize = (self.textImage.get_width(),self.textImage.get_height())
     self.rect = pygame.Rect(self.pos[0],self.pos[1],self.Size[0],self.Size[1])
     self.callback = callback
+  def getSize(text):
+    textImage = Ressources.Font.render(text, True, Ressources.Font_color)
+    textSize = (textImage.get_width(),max(textImage.get_height(),Button.Size[1]))
+    return textSize
+  def updateSize(self):
+    self.Size = Button.getSize(self.text)
+    self.rect = pygame.Rect(self.pos[0],self.pos[1],self.Size[0],self.Size[1])
   def handle_event(self, event):
     if event.type == pygame.MOUSEBUTTONDOWN:
         # If the user clicked on the input_box rect.
@@ -149,6 +156,8 @@ class PlayerList:
     for i in range(len(PlayerList.TagList)):
       PlayerList.TagList[i].draw()
   def handle_event(self,event):
+    if GameManager.GameManager.CommandMode != "GUI":
+      return
     if event.type == pygame.MOUSEBUTTONDOWN:
       if self.rect.collidepoint(event.pos):
         self.selectedPlayer = None
@@ -172,30 +181,30 @@ class GUI:
     GUI.position = pos
     GUI.dimensions = dim
     LineSize = GUI.dimensions[1]/20
-    GUI.textBoxes.append(InputBox(((GUI.dimensions[0]/2)-(InputBox.SIZE[0]/2),LineSize*2),"Player Name"))
+    GUI.textBoxes.append(InputBox(((GUI.dimensions[0]/2)-(InputBox.SIZE[0]/2),LineSize),"Player Name"))
     GUI.UIElements.append(GUI.textBoxes[-1])
-    GUI.buttons.append(Button("spown",((GUI.dimensions[0]/2)-(Button.Size[0]/2),LineSize*3),GUI.PlayerSpawn))
+    GUI.buttons.append(Button("spown",((GUI.dimensions[0]/2)-(Button.Size[0]/2),LineSize*2),GUI.PlayerSpawn))
     GUI.UIElements.append(GUI.buttons[-1])
     GUI.textBoxes[-1].linkTo(GUI.PlayerSpawn)
 
-    GUI.labels.append(PlayerList(((GUI.dimensions[0]/2)-(PlayerList.SIZE[0]/2),LineSize*5)))
+    GUI.labels.append(PlayerList(((GUI.dimensions[0]/2)-(PlayerList.SIZE[0]/2),LineSize*3)))
     GUI.UIElements.append(GUI.labels[-1])
 
 
     for i in range(6):
-      GameManager.GameManager.Dice_Animations.append(Animations.DiceAnimation(i+1,((GUI.dimensions[0]/2)-(Animations.DiceAnimation.SIZE[0]/2),LineSize*14.5)))
+      GameManager.GameManager.Dice_Animations.append(Animations.DiceAnimation(i+1,((GUI.dimensions[0]/2)-(Animations.DiceAnimation.SIZE[0]/2),LineSize*12.5)))
       GUI.UIElements.append(GameManager.GameManager.Dice_Animations[-1])
 
-    GUI.buttons.append(Button("Roll",((GUI.dimensions[0]/2)-(Button.Size[0]/2),LineSize*17),GUI.RollDise))
+    GUI.buttons.append(Button("Roll",((GUI.dimensions[0]/2)-(Button.Size[0]/2),LineSize*15),GUI.RollDise))
     GUI.UIElements.append(GUI.buttons[-1])
     
-    GUI.buttons.append(Button("Buy-1",((GUI.dimensions[0]/6)-(Button.Size[0]/2),LineSize*19),GUI.BuyMinus1))
+    GUI.buttons.append(Button("Buy-1",((GUI.dimensions[0]/6)-(Button.Size[0]/2),LineSize*17),GUI.BuyMinus1))
     GUI.UIElements.append(GUI.buttons[-1])
 
-    GUI.buttons.append(Button("Buy",((GUI.dimensions[0]*(3/6))-(Button.Size[0]/2),LineSize*19),GUI.BuyHere))
+    GUI.buttons.append(Button("Buy",((GUI.dimensions[0]*(3/6))-(Button.Size[0]/2),LineSize*17),GUI.BuyHere))
     GUI.UIElements.append(GUI.buttons[-1])
     
-    GUI.buttons.append(Button("Buy+1",((GUI.dimensions[0]*(5/6))-(Button.Size[0]/2),LineSize*19),GUI.BuyPlus1))
+    GUI.buttons.append(Button("Buy+1",((GUI.dimensions[0]*(5/6))-(Button.Size[0]/2),LineSize*17),GUI.BuyPlus1))
     GUI.UIElements.append(GUI.buttons[-1])
 
     GameManager.GameManager.AnnoucementsList.append(Animations.AnnoucementAnimation(Ressources.Playing_square_pos,Ressources.Playing_square_dim,"broke",Ressources.anouncement_images[GameManager.Annoucements.Broke],GameManager.GameManager.AnnoucementsDelay))
@@ -207,18 +216,20 @@ class GUI:
     GameManager.GameManager.AnnoucementsList.append(Animations.AnnoucementAnimation(Ressources.Playing_square_pos,Ressources.Playing_square_dim,"lost",Ressources.anouncement_images[GameManager.Annoucements.LostMoney],GameManager.GameManager.AnnoucementsDelay))
     GUI.UIElements.append(GameManager.GameManager.AnnoucementsList[-1])
 
+    GUI.buttons.append(Button("Discord",((GUI.dimensions[0]/2)-(Button.Size[0]/2),LineSize*19),GameManager.GameManager.SwitchMode))
+    GUI.UIElements.append(GUI.buttons[-1])
   
   def BuyHere():
     if GUI.labels[0].selectedPlayer == None:
       print("Select player first !")
       return False
-    GUI.labels[0].selectedPlayer.buySquare(GUI.labels[0].selectedPlayer.position)
+    return GUI.labels[0].selectedPlayer.buySquare(GUI.labels[0].selectedPlayer.position)
   def BuyPlus1():
     if GUI.labels[0].selectedPlayer == None:
       print("Select player first !")
       return False
     positionPlus1 = (GUI.labels[0].selectedPlayer.position+1)%len(GameManager.GameManager.squares)
-    GUI.labels[0].selectedPlayer.buySquare(positionPlus1)
+    return GUI.labels[0].selectedPlayer.buySquare(positionPlus1)
   def BuyMinus1():
     if GUI.labels[0].selectedPlayer == None:
       print("Select player first !")
@@ -226,7 +237,7 @@ class GUI:
     positionMinus1 = (GUI.labels[0].selectedPlayer.position-1)
     if positionMinus1 < 0:
       positionMinus1 += len(GameManager.GameManager.squares)
-    GUI.labels[0].selectedPlayer.buySquare(positionMinus1)
+    return GUI.labels[0].selectedPlayer.buySquare(positionMinus1)
   def RollDise():
     if GUI.labels[0].selectedPlayer == None:
       print("Select player first !")
@@ -237,7 +248,6 @@ class GUI:
     for animation in GameManager.GameManager.Dice_Animations:
       animation.visible = False
     value = random.choice(list(range(1,7)))
-    value = 6
     GameManager.GameManager.Dice_Animations[value-1].play(GUI.RollDice_end)
     GameManager.GameManager.current_Animations.append(GameManager.GameManager.Dice_Animations[value-1])
   def RollDice_end(value):

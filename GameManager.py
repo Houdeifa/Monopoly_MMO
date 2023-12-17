@@ -8,6 +8,7 @@ from GUI import PlayerList
 from Animations import DiceAnimation
 from Animations import AnnoucementAnimation
 import threading
+from DiscordGui import DiscordGui
 import os
 import sys
 from LoadingGui import LoadingGui
@@ -31,6 +32,10 @@ class GameManager:
   AnnoucementsList = []
   AnnoucementsQueue = []
   AnnoucementIsPlaying = False
+  PlayerListMap = dict()
+  discord_thread = None
+  commandQueue_thread = None
+  CommandMode = "Discord"
   def RessourcesLoad():
     Ressources.Font = pygame.font.SysFont(None, 24)
     GameManager.RessourcesLoadedPercent = 2
@@ -97,14 +102,19 @@ class GameManager:
     GameManager.RessourcesLoadedPercent = 100
     LoadingGui.finished()
 
-  def init(screen):
+  def init(screen,discord_thread,commandQueue_thread):
+    GameManager.discord_thread = discord_thread
+    GameManager.commandQueue_thread = commandQueue_thread
     Ressources.myScreen = screen
     tr1 = threading.Thread(target=GameManager.RessourcesLoad,name="RessourcesLoad")
     LoadingGui.init()
     tr1.start()
     # tr1.join()
   def loadedInit():
+    GameManager.discord_thread.start()
+    GameManager.commandQueue_thread.start()
     GUI.init(Ressources.command_square_pos,Ressources.command_square_dim)
+    DiscordGui.init(Ressources.command_square_pos,Ressources.command_square_dim)
 
     for i in range(len(Ressources.Squares_positions)):
       GameManager.squares.append(Square(Ressources.Squares_positions[i]))
@@ -112,7 +122,7 @@ class GameManager:
     Criminal.init()
 
   def draw():
-    if GameManager.RessourcesLoadedPercent  < 100 :
+    if GameManager.RessourcesLoaded == False :
       LoadingGui.draw()
       return
     #background colors
@@ -133,7 +143,10 @@ class GameManager:
     
     Criminal.draw()
 
-    GUI.draw()
+    if GameManager.CommandMode == "GUI":
+      GUI.draw()
+    else:
+      DiscordGui.draw()
     
 
 
@@ -143,7 +156,10 @@ class GameManager:
       return
     if GameManager.Playable == False:
       return
-    GUI.handle_event(event)
+    if GameManager.CommandMode == "Discord":
+      DiscordGui.handle_event(event)
+    else:
+      GUI.handle_event(event)
 
   def update():
     if GameManager.RessourcesLoaded == False:
@@ -154,8 +170,10 @@ class GameManager:
     if (len( GameManager.AnnoucementsQueue) != 0 and GameManager.AnnoucementIsPlaying == False):
       Annoucement  = GameManager.AnnoucementsQueue.pop()
       Annoucement[0].play(Annoucement[2],Annoucement[1])
-
-    GUI.update()
+    if  GameManager.CommandMode == "GUI":
+      GUI.update()
+    else:
+      DiscordGui.update()
 
   def playerSpawn(name):
     exists = False
@@ -165,9 +183,15 @@ class GameManager:
         break
     if exists:
       print("Player already exists")
-      return
+      return False
     GameManager.player_list.append(Player(name))
     GUI.labels[0].addPlayer(GameManager.player_list[-1])
     GameManager.player_list[-1].tagName = PlayerList.TagList[-1]
     GameManager.squares[0].playerIn(GameManager.player_list[-1])
-  
+    GameManager.PlayerListMap[name] = GameManager.player_list[-1]
+    return True
+  def SwitchMode():
+    if GameManager.CommandMode == "Discord":
+      GameManager.CommandMode = "GUI"
+    else:
+      GameManager.CommandMode = "Discord"

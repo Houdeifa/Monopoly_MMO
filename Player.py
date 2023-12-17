@@ -39,7 +39,7 @@ class Player:
     self.moneyToGetNext = 0
     self.alive = True
     self.deathCause = None
-    self.tagName:GameManager.PlayerList = None
+    self.tagName = None
     self.ID = Player.NumberOfPlayers
     self.color = Ressources.PlayerColors[self.ID]
     Player.NumberOfPlayers += 1
@@ -146,7 +146,6 @@ class Criminal:
 
   def move():
     value = random.choice(list(range(1,7)))
-    value = 6
     position = (Criminal.postion + value) % len(GameManager.GameManager.squares)
     if (position == Criminal.postion):
       return

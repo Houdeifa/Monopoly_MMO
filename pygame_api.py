@@ -8,6 +8,7 @@ from Ressources import Ressources
 import pygame
 import os
 import signal
+import Discrod_api
 # Import non-standard modules.
 from pygame.locals import *
 discord_thread = None
@@ -41,9 +42,9 @@ def update(dt):
       #   GameManager.AnnoucementsList[Annoucements.LostMoney].playnext = True
       pass
     if event.type == QUIT:
-      discord_thread.raise_exception()
       pygame.quit() # Opposite of pygame.init
-      sys.exit() # Not including this line crashes the script on Windows. Possibly
+      Discrod_api.quit()
+      os._exit(0) # Not including this line crashes the script on Windows. Possibly
       # on other operating systems too, but I don't know for sure.
     # Handle other events as you wish.
   GameManager.update()
@@ -60,11 +61,9 @@ def draw(screen):
   # Flip the display so that the things we drew actually show up.
   pygame.display.flip()
  
-def runPyGame(_discord_thread):
+def runPyGame(discord_thread,commandQueue_thread):
   # Initialise PyGame.
   pygame.init()
-  global discord_thread
-  discord_thread = _discord_thread
   # Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
   fps = 60.0
   fpsClock = pygame.time.Clock()
@@ -72,7 +71,7 @@ def runPyGame(_discord_thread):
   # Set up the window.
   width, height = Ressources.Screen_with, Ressources.Screen_height
   screen = pygame.display.set_mode((width, height))
-  GameManager.init(screen)
+  GameManager.init(screen,discord_thread,commandQueue_thread)
   
   # screen is the surface representing the window.
   # PyGame surfaces can be thought of as screen sections that you can draw onto.
