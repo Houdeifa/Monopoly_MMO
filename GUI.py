@@ -119,7 +119,7 @@ class PlayerTag:
   def handle_event(self,event):
     if event.type == pygame.MOUSEBUTTONDOWN:
       if self.player.alive == False:
-        print("Can't select a dead player")
+        print(GameManager.GameManager.LanguageDict['Prints'][0][0])
       else:
         if self.rect.collidepoint(event.pos) and self.selected == False:
           self.Select()
@@ -133,7 +133,9 @@ class PlayerList:
     self.rel_pos = pos
     self.pos = (Ressources.command_square_pos[0]+self.rel_pos[0],Ressources.command_square_pos[1]+self.rel_pos[1])
     self.selectedPlayer = None
-    self.txt_surface = Ressources.Font.render("Player List :", True, pygame.Color('white'))
+    messageList = GameManager.GameManager.LanguageDict['UI'][0]
+    message = messageList[0]
+    self.txt_surface = Ressources.Font.render(message, True, pygame.Color('white'))
     self.text_height = self.txt_surface.get_height()
     self.rect = pygame.Rect(self.pos[0],self.pos[1],self.SIZE[0],self.SIZE[1]+self.text_height+self.PADDINGS)
 
@@ -181,9 +183,9 @@ class GUI:
     GUI.position = pos
     GUI.dimensions = dim
     LineSize = GUI.dimensions[1]/20
-    GUI.textBoxes.append(InputBox(((GUI.dimensions[0]/2)-(InputBox.SIZE[0]/2),LineSize),"Player Name"))
+    GUI.textBoxes.append(InputBox(((GUI.dimensions[0]/2)-(InputBox.SIZE[0]/2),LineSize),GameManager.GameManager.LanguageDict['UI'][1][0]))
     GUI.UIElements.append(GUI.textBoxes[-1])
-    GUI.buttons.append(Button("spown",((GUI.dimensions[0]/2)-(Button.Size[0]/2),LineSize*2),GUI.PlayerSpawn))
+    GUI.buttons.append(Button(GameManager.GameManager.LanguageDict['UI'][7][0],((GUI.dimensions[0]/2)-(Button.Size[0]/2),LineSize*2),GUI.PlayerSpawn))
     GUI.UIElements.append(GUI.buttons[-1])
     GUI.textBoxes[-1].linkTo(GUI.PlayerSpawn)
 
@@ -195,16 +197,16 @@ class GUI:
       GameManager.GameManager.Dice_Animations.append(Animations.DiceAnimation(i+1,((GUI.dimensions[0]/2)-(Animations.DiceAnimation.SIZE[0]/2),LineSize*12.5)))
       GUI.UIElements.append(GameManager.GameManager.Dice_Animations[-1])
 
-    GUI.buttons.append(Button("Roll",((GUI.dimensions[0]/2)-(Button.Size[0]/2),LineSize*15),GUI.RollDise))
+    GUI.buttons.append(Button(GameManager.GameManager.LanguageDict['UI'][2][0],((GUI.dimensions[0]/2)-(Button.Size[0]/2),LineSize*15),GUI.RollDise))
     GUI.UIElements.append(GUI.buttons[-1])
     
-    GUI.buttons.append(Button("Buy-1",((GUI.dimensions[0]/6)-(Button.Size[0]/2),LineSize*17),GUI.BuyMinus1))
+    GUI.buttons.append(Button(GameManager.GameManager.LanguageDict['UI'][3][0],((GUI.dimensions[0]/6)-(Button.Size[0]/2),LineSize*17),GUI.BuyMinus1))
     GUI.UIElements.append(GUI.buttons[-1])
 
-    GUI.buttons.append(Button("Buy",((GUI.dimensions[0]*(3/6))-(Button.Size[0]/2),LineSize*17),GUI.BuyHere))
+    GUI.buttons.append(Button(GameManager.GameManager.LanguageDict['UI'][4][0],((GUI.dimensions[0]*(3/6))-(Button.Size[0]/2),LineSize*17),GUI.BuyHere))
     GUI.UIElements.append(GUI.buttons[-1])
     
-    GUI.buttons.append(Button("Buy+1",((GUI.dimensions[0]*(5/6))-(Button.Size[0]/2),LineSize*17),GUI.BuyPlus1))
+    GUI.buttons.append(Button(GameManager.GameManager.LanguageDict['UI'][5][0],((GUI.dimensions[0]*(5/6))-(Button.Size[0]/2),LineSize*17),GUI.BuyPlus1))
     GUI.UIElements.append(GUI.buttons[-1])
 
     GameManager.GameManager.AnnoucementsList.append(Animations.AnnoucementAnimation(Ressources.Playing_square_pos,Ressources.Playing_square_dim,"broke",Ressources.anouncement_images[GameManager.Annoucements.Broke],GameManager.GameManager.AnnoucementsDelay))
@@ -216,23 +218,23 @@ class GUI:
     GameManager.GameManager.AnnoucementsList.append(Animations.AnnoucementAnimation(Ressources.Playing_square_pos,Ressources.Playing_square_dim,"lost",Ressources.anouncement_images[GameManager.Annoucements.LostMoney],GameManager.GameManager.AnnoucementsDelay))
     GUI.UIElements.append(GameManager.GameManager.AnnoucementsList[-1])
 
-    GUI.buttons.append(Button("Discord",((GUI.dimensions[0]/2)-(Button.Size[0]/2),LineSize*19),GameManager.GameManager.SwitchMode))
+    GUI.buttons.append(Button(GameManager.GameManager.LanguageDict['UI'][6][0],((GUI.dimensions[0]/2)-(Button.Size[0]/2),LineSize*19),GameManager.GameManager.SwitchMode))
     GUI.UIElements.append(GUI.buttons[-1])
   
   def BuyHere():
     if GUI.labels[0].selectedPlayer == None:
-      print("Select player first !")
+      print(GameManager.GameManager.LanguageDict['Prints'][1][0])
       return False
     return GUI.labels[0].selectedPlayer.buySquare(GUI.labels[0].selectedPlayer.position)
   def BuyPlus1():
     if GUI.labels[0].selectedPlayer == None:
-      print("Select player first !")
+      print(GameManager.GameManager.LanguageDict['Prints'][1][0])
       return False
     positionPlus1 = (GUI.labels[0].selectedPlayer.position+1)%len(GameManager.GameManager.squares)
     return GUI.labels[0].selectedPlayer.buySquare(positionPlus1)
   def BuyMinus1():
     if GUI.labels[0].selectedPlayer == None:
-      print("Select player first !")
+      print(GameManager.GameManager.LanguageDict['Prints'][1][0])
       return False
     positionMinus1 = (GUI.labels[0].selectedPlayer.position-1)
     if positionMinus1 < 0:
@@ -240,10 +242,10 @@ class GUI:
     return GUI.labels[0].selectedPlayer.buySquare(positionMinus1)
   def RollDise():
     if GUI.labels[0].selectedPlayer == None:
-      print("Select player first !")
+      print(GameManager.GameManager.LanguageDict['Prints'][1][0])
       return
     if GUI.labels[0].selectedPlayer.alive == False:
-      print("Selected player is dead !")
+      print(GameManager.GameManager.LanguageDict['Prints'][2][0])
       return
     for animation in GameManager.GameManager.Dice_Animations:
       animation.visible = False
@@ -257,7 +259,7 @@ class GUI:
     GUI.labels[0].selectedPlayer.position = position
     GUI.labels[0].selectedPlayer.move()
     GameManager.GameManager.squares[position].playerIn(GUI.labels[0].selectedPlayer)
-    print("Dice roll : ", value)
+    print(GameManager.GameManager.LanguageDict['Prints'][3][0], value)
   def PlayerSpawn():
     if not " " in GUI.textBoxes[0].text:
       GameManager.GameManager.playerSpawn(GUI.textBoxes[0].text)

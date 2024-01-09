@@ -10,10 +10,9 @@ class DiscordGui:
     DiscordGui.dimensions = dim
     LineSize = DiscordGui.dimensions[1]/20
 
-    text = "Manual command"
+    text = GameManager.GameManager.LanguageDict['UI'][8][0]
     textSize = GUI.Button.getSize(text)
     pos = ((DiscordGui.dimensions[0]/2)-(textSize[0]/2),LineSize*19)
-    print("pos =",pos)
     DiscordGui.buttons.append(GUI.Button(text,pos,GameManager.GameManager.SwitchMode))
     DiscordGui.buttons[-1].updateSize()
     DiscordGui.UIElements.append(DiscordGui.buttons[-1])

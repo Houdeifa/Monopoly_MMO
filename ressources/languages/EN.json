@@ -1,0 +1,59 @@
+{
+  "Annoucements":[
+    ["Player : "," lost"],
+    ["Player : "," lost"],
+    ["Player : "," get paied"],
+    ["Player : "," lost money"]
+  ],
+  "UI":[
+    ["Player List :"],
+    ["Player Name"],
+    ["Roll"],
+    ["Buy-1"],
+    ["Buy"],
+    ["Buy+1"],
+    ["Discord"],
+    ["Spown"],
+    ["Manual Command"]
+  ],
+  "Prints":[
+    ["Can't select a dead player"],
+    ["Select player first !"],
+    ["Selected player is dead !"],
+    ["Dice roll : "],
+    ["Player already exists"],
+    ["Program ended"],
+    ["Selected player is Dead !"],
+    ["Selected player don't have enough money !"],
+    ["The selected square cannot be purchased !"],
+    ["Selected player already own this square !"],
+    ["player","buyed the square number"],
+    ["player","died"]
+  ],
+  "Discord":[
+    ["The Discord commands are deactivated"],
+    ["Responds with Hello!"],
+    ["Hello ","!"],
+    ["Spawn new player"],
+    ["Move the player"],
+    ["Buy the current square"],
+    ["Buy the previous square"],
+    ["Buy the next square"]
+  ],
+  "DiscordAPI":[
+    ["Player "," not spawned"],
+    ["Player "," alredy exists"],
+    ["The player "," has been spawned"],
+    ["The player "," has moved"],
+    ["Player "," not spawned"],
+    [": You can't buy"],
+    ["The player "," bought the current square"],
+    ["Player "," not spawned"],
+    ["The player "," bought the next square"],
+    [": You can't buy"],
+    ["Player "," not spawned"],
+    [": You can't buy"],
+    ["The player "," bought the previous square"]
+  ]
+
+}

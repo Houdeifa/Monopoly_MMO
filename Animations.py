@@ -80,13 +80,21 @@ class AnnoucementAnimation:
   def setPlayer(self,player):
     self.player = player
     if self.text == "broke":
-      self.textImage = Ressources.bigFont.render("Player : " + self.player.name + " lost",True,pygame.Color('black'))
+      messageList = GameManager.GameManager.LanguageDict['Annoucements'][0]
+      message = messageList[0] + self.player.name + messageList[1]
+      self.textImage = Ressources.bigFont.render(message,True,pygame.Color('black'))
     elif self.text == "die":
-      self.textImage = Ressources.bigFont.render("Player : " + self.player.name + " lost",True,pygame.Color('black'))
+      messageList = GameManager.GameManager.LanguageDict['Annoucements'][1]
+      message = messageList[0] + self.player.name + messageList[1]
+      self.textImage = Ressources.bigFont.render(message,True,pygame.Color('black'))
     elif self.text == "got":
-      self.textImage = Ressources.bigFont.render("Player : " + self.player.name + " get paied",True,pygame.Color('black'))
+      messageList = GameManager.GameManager.LanguageDict['Annoucements'][2]
+      message = messageList[0] + self.player.name + messageList[1]
+      self.textImage = Ressources.bigFont.render(message,True,pygame.Color('black'))
     elif self.text == "lost":
-      self.textImage = Ressources.bigFont.render("Player : " + self.player.name + " lost money",True,pygame.Color('black'))
+      messageList = GameManager.GameManager.LanguageDict['Annoucements'][3]
+      message = messageList[0] + self.player.name + messageList[1]
+      self.textImage = Ressources.bigFont.render(message,True,pygame.Color('black'))
     width = self.textImage.get_width() + AnnoucementAnimation.Spacing + AnnoucementAnimation.IMAGE_SIZE[0]
     height = max(self.textImage.get_height(),AnnoucementAnimation.IMAGE_SIZE[0])
     self.size = (width,height)

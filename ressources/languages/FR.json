@@ -1,0 +1,58 @@
+{
+  "Annoucements":[
+    ["Le joueur : "," a perdu"],
+    ["Le joueur : "," a perdu"],
+    ["Le joueur : "," a été payé"],
+    ["Le joueur : "," a perdu de l'argent"]
+  ],
+  "UI":[
+    ["Liste des joueurs :"],
+    ["Nom du joueur"],
+    ["Lancer"],
+    ["Acheter-1"],
+    ["Acheter"],
+    ["Acheter+1"],
+    ["Discord"],
+    ["Spown"],
+    ["Commande Manuelle"]
+  ],
+  "Prints":[
+    ["Impossible de sélectionner un joueur mort"],
+    ["Sélectionnez d'abord le joueur !"],
+    ["Le joueur sélectionné est mort !"],
+    ["Lancement de dés : "],
+    ["Le joueur existe déjà"],
+    ["Programme terminé"],
+    ["Le joueur sélectionné est mort !"],
+    ["Le joueur sélectionné n'a pas assez d'argent !"],
+    ["Le carré sélectionné n'est pas achetable !"],
+    ["Le joueur sélectionné possède déjà ce carré !"],
+    ["Le joeur","a acheté ce carré"],
+    ["Le joeur","est mort"]
+  ],
+  "Discord":[
+    ["Les commandes Discord sont désactivées"],
+    ["Répond par Bonjour !"],
+    ["Bonjour ","!"],
+    ["Spawn un nouveau joueur"],
+    ["Déplacer le joueur"],
+    ["Acheter le carré actuel"],
+    ["Acheter le carré précédent"],
+    ["Achetez le prochain carré"]
+  ],
+  "DiscordAPI":[
+    ["Joueur "," pas encore spawn"],
+    ["Joueur "," existe déjà"],
+    ["Le Joueur "," a spawn"],
+    ["Le Joueur "," a avancé"],
+    ["Joueur "," pas encore spawn"],
+    [": Tu ne peux pas acheter"],
+    ["Le Joueur "," a acheté la place actuelle"],
+    ["Joueur "," pas encore spawn"],
+    ["Le Joueur "," a acheté le prochain carré"],
+    [": Tu ne peux pas acheter"],
+    ["Joueur "," pas encore spawn"],
+    [": Tu ne peux pas acheter"],
+    ["Le Joueur "," a acheté le carré précédent"]
+  ]
+}

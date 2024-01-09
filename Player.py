@@ -53,19 +53,19 @@ class Player:
     Criminal.PlayerMouved()
   def canBuy(self,position):    
     if self.alive == False:
-      print("Selected player is Dead !")
+      print(GameManager.GameManager.LanguageDict['Prints'][6][0])
       return False
     
     if self.lives < (GameManager.Square.Taxes + 1):
-      print("Selected player don't have enough money !")
+      print(GameManager.GameManager.LanguageDict['Prints'][7][0])
       return False
     
     if GameManager.GameManager.squares[position].canBuy()  == False:
-      print("Selected square is not bayable !")
+      print(GameManager.GameManager.LanguageDict['Prints'][8][0])
       return False
     
     if GameManager.GameManager.squares[position] in self.properties:
-      print("Selected player already own this square !")
+      print(GameManager.GameManager.LanguageDict['Prints'][9][0])
       return False
     
     return True
@@ -78,7 +78,7 @@ class Player:
     GameManager.GameManager.squares[position].assignTo(self)
     self.properties.append(GameManager.GameManager.squares[position])
     self.update()
-    print("player" ,self.name, "buyed the square number",position)
+    print(GameManager.GameManager.LanguageDict['Prints'][10][0] ,self.name, GameManager.GameManager.LanguageDict['Prints'][10][1],position)
     return True
   def sellSquare(self,position):
     if not GameManager.GameManager.squares[position] in self.properties:
@@ -99,7 +99,7 @@ class Player:
         GameManager.GameManager.Animation_ongoing = True
         GameManager.GameManager.AnnoucementsQueue.append([GameManager.GameManager.AnnoucementsList[GameManager.Annoucements.Broke],self.dead,self])
   def dead(self,player):
-      print("player",self.name,"died")
+      print(GameManager.GameManager.LanguageDict['Prints'][11][0],self.name,GameManager.GameManager.LanguageDict['Prints'][12][0])
       GameManager.GameManager.Playable_locked  = False
       self.lives = 0
       self.alive = False
@@ -133,7 +133,7 @@ class Criminal:
   postion:int = 0
   Circle:PlayerCircle = None
   def init():
-    Criminal.Circle = PlayerCircle( GameManager.GameManager.squares[0].getNextPos(),pygame.Color('black'),"Yoonns")
+    Criminal.Circle = PlayerCircle( GameManager.GameManager.squares[0].getNextPos(),pygame.Color('black'),Criminal.Name)
     Criminal.Circle.lives = 0
     Criminal.Circle.update()
     GameManager.GameManager.squares[0].CriminalIn()

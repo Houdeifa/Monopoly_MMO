@@ -11,6 +11,8 @@ import threading
 from DiscordGui import DiscordGui
 import os
 import sys
+import json
+
 from LoadingGui import LoadingGui
 class Annoucements:
   Broke = 0
@@ -36,6 +38,7 @@ class GameManager:
   discord_thread = None
   commandQueue_thread = None
   CommandMode = "Discord"
+  LanguageDict = dict()
   def RessourcesLoad():
     Ressources.Font = pygame.font.SysFont(None, 24)
     GameManager.RessourcesLoadedPercent = 2
@@ -50,6 +53,14 @@ class GameManager:
     GameManager.RessourcesLoadedPercent = 10
     Ressources.background_image = pygame.image.load('ressources/bg.png')
     Ressources.background_image = pygame.transform.scale(Ressources.background_image, Ressources.Playing_square_dim)
+
+    with open('config.json', 'r', encoding="utf-8") as fcc_file:
+      configdata = json.load(fcc_file)
+    
+    Criminal.Name = configdata['CriminalName']
+    
+    with open('ressources/languages/'+configdata['language']+'.json', 'r', encoding="utf-8") as fcc_file:
+      GameManager.LanguageDict = json.load(fcc_file)
 
     GameManager.RessourcesLoadedPercent = 20
     for i in range(6):
@@ -182,7 +193,7 @@ class GameManager:
         exists = True
         break
     if exists:
-      print("Player already exists")
+      print(GameManager.LanguageDict['Prints'][4][0])
       return False
     GameManager.player_list.append(Player(name))
     GUI.labels[0].addPlayer(GameManager.player_list[-1])
